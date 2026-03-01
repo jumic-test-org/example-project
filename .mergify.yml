@@ -1,37 +1,6 @@
-queue_rules:
-  - name: main-queue
-    merge_method: squash
-
 pull_request_rules:
-  - name: queue jumic labeled PRs
+  - name: merge automatically when CI passes and PR is approved
     conditions:
-      - base=main
-      - "author=jumic"
-      - "check-success=lint-typecheck-format"
-      - "label=ready-to-merge"
-      - "label!=do-not-merge"
+      - check-success = validate
     actions:
-      merge:
-        method: squash
-
-  - name: queue external contributor PRs
-    conditions:
-      - base=main
-      - "author!=jumic"
-      - "author!=dependabot[bot]"
-      - "#approved-reviews-by>=1"
-      - "check-success=lint-typecheck-format"
-      - "label!=do-not-merge"
-    actions:
-      queue:
-        name: main-queue
-
-  - name: queue dependabot PRs
-    conditions:
-      - base=main
-      - "author=dependabot[bot]"
-      - "check-success=lint-typecheck-format"
-      - "label!=do-not-merge"
-    actions:
-      queue:
-        name: main-queue
+      squash:
