@@ -7,8 +7,7 @@ pull_request_rules:
     conditions:
       - base=main
       - "author=jumic"
-      - "check-success=Build / lint-typecheck-format"
-      - "check-success=Lint PR title / validate"
+      - "check-success=lint-typecheck-format"
       - "label=ready-to-merge"
       - "label!=do-not-merge"
     actions:
@@ -21,8 +20,7 @@ pull_request_rules:
       - "author!=jumic"
       - "author!=dependabot[bot]"
       - "#approved-reviews-by>=1"
-      - "check-success=Build / lint-typecheck-format"
-      - "check-success=Lint PR title / validate"
+      - "check-success=lint-typecheck-format"
       - "label!=do-not-merge"
     actions:
       queue:
@@ -32,8 +30,7 @@ pull_request_rules:
     conditions:
       - base=main
       - "author=dependabot[bot]"
-      - "check-success=Build / lint-typecheck-format"
-      - "check-success=Lint PR title / validate"
+      - "check-success=lint-typecheck-format"
       - "label!=do-not-merge"
     actions:
       queue:
