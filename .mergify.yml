@@ -11,7 +11,8 @@ pull_request_rules:
       - "label=ready-to-merge"
       - "label!=do-not-merge"
     actions:
-      merge
+      merge:
+        method: squash
 
   - name: queue external contributor PRs
     conditions:
