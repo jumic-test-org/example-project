@@ -12,9 +12,7 @@ jobs:
       - name: Approve PR
         uses: hmarr/auto-approve-action@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          review-message: "Auto approved automated PR"
+          review-message: 'Auto approved automated PR'
 
       - name: Enable Pull Request Automerge
         run: gh pr merge --merge --auto "1"
