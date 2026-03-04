@@ -28,7 +28,7 @@
     "aws-cdk": "2.1107.0",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
-    "globals": "^17.3.0",
+    "globals": "^17.4.0",
     "jest": "^30",
     "jiti": "^2.6.1",
     "prettier": "^3.8.1",
