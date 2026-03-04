@@ -4,15 +4,11 @@ on: pull_request_target
 jobs:
   auto-approve-and-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' # Only run for Dependabot PRs
+    permissions:
+      pull-requests: write
+    if: github.actor == 'dependabot[bot]'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Approve PR
-        uses: hmarr/auto-approve-action@v4
-        with:
-          review-message: 'Auto approved automated PR'
+      - uses: hmarr/auto-approve-action@v4
 
       - name: Enable Pull Request Automerge
         run: gh pr merge --merge --auto "1"
