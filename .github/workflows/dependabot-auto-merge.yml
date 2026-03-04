@@ -9,6 +9,3 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     steps:
       - uses: hmarr/auto-approve-action@v4
-
-      - name: Enable Pull Request Automerge
-        run: gh pr merge --merge --auto "1"
