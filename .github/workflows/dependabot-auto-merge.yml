@@ -1,7 +1,7 @@
 name: Auto-Approve & Merge Dependabot PRs
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, edited, synchronize]
     branches:
       - main
 
