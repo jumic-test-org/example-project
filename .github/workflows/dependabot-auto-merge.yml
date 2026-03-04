@@ -1,12 +1,25 @@
-name: Auto approve
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+name: Dependabot auto-approve
+on: pull_request
 
-on: pull_request_target
+permissions:
+  pull-requests: write
 
 jobs:
-  auto-approve:
+  dependabot:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    if: github.actor == 'dependabot[bot]'
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - uses: hmarr/auto-approve-action@v4
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Approve a PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
