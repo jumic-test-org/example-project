@@ -1,8 +1,9 @@
-name: Auto-Approve & Merge Dependabot PRs
+name: Auto approve
+
 on: pull_request_target
 
 jobs:
-  auto-approve-and-merge:
+  auto-approve:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
