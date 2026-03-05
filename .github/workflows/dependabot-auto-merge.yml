@@ -1,19 +1,21 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 name: Dependabot auto-approve
-on:
-  pull_request_target:
-    types: [labeled, unlabeled, opened, synchronize, reopened, ready_for_review, review_requested]
+on: pull_request
+
+permissions:
+  pull-requests: write
 
 jobs:
-  auto-approve:
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
+  dependabot:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'jumic-test-org/example-project'
     steps:
-      - uses: hmarr/auto-approve-action@v4.0.0
-        with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Approve a PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
