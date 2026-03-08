@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/jumic-test-org/example-project/compare/v1.2.1...v1.2.2) (2026-03-07)
+
+
+### Bug Fixes
+
+* test github actions ([#34](https://github.com/jumic-test-org/example-project/issues/34)) ([16d03c1](https://github.com/jumic-test-org/example-project/commit/16d03c14ee18f93215d8d440f651127be7867c4b))
+* update mergify check names to match GitHub Actions ([322cd38](https://github.com/jumic-test-org/example-project/commit/322cd3897be6ccb429e126eb6751d7298f070cf9))
+
 ## [1.2.1](https://github.com/jumic/example-project/compare/v1.2.0...v1.2.1) (2026-02-23)
 
 
