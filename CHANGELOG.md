@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/jumic-test-org/example-project/compare/v1.3.3...v1.3.4) (2026-03-21)
+
+
+### Bug Fixes
+
+* test dependabot ([#80](https://github.com/jumic-test-org/example-project/issues/80)) ([6032f2f](https://github.com/jumic-test-org/example-project/commit/6032f2fc026b3265fcb4d5d5c374fae6be8a243d))
+
 ## [1.3.3](https://github.com/jumic-test-org/example-project/compare/v1.3.2...v1.3.3) (2026-03-21)
 
 
