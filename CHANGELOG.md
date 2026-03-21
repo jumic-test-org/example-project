@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/jumic-test-org/example-project/compare/v1.4.1...v1.4.2) (2026-03-21)
+
+
+### Bug Fixes
+
+* publish command ([#87](https://github.com/jumic-test-org/example-project/issues/87)) ([5e2d729](https://github.com/jumic-test-org/example-project/commit/5e2d729fef7cf6c861f740bbd1d02797ffb3383f))
+
 ## [1.4.1](https://github.com/jumic-test-org/example-project/compare/v1.4.0...v1.4.1) (2026-03-21)
 
 
