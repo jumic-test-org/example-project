@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/jumic-test-org/example-project/compare/v1.2.3...v1.2.4) (2026-03-21)
+
+
+### Bug Fixes
+
+* update second queue ([#70](https://github.com/jumic-test-org/example-project/issues/70)) ([f25e832](https://github.com/jumic-test-org/example-project/commit/f25e832083dfb96a6edfce95010b59cca85f74e6))
+
 ## [1.2.3](https://github.com/jumic-test-org/example-project/compare/v1.2.2...v1.2.3) (2026-03-21)
 
 
