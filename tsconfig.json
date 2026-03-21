@@ -22,6 +22,6 @@
     "typeRoots": ["./node_modules/@types"],
     "outDir": "dist"
   },
-  "include": ["lib/**/*.ts"],
+  "include": ["lib/**/*.ts", "bin/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules", "cdk.out", "eslint.config.ts", "dist"]
 }
