@@ -15,6 +15,7 @@ export class ExampleProjectStack extends cdk.Stack {
       enforceSSL: true,
     });
 
+    // example resource
     const queue2 = new sqs.Queue(this, 'ExampleProjectQueue2', {
       visibilityTimeout: cdk.Duration.seconds(300),
       enforceSSL: true,
