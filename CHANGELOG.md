@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/jumic-test-org/example-project/compare/v1.3.0...v1.3.1) (2026-03-21)
+
+
+### Bug Fixes
+
+* remove queue ([#74](https://github.com/jumic-test-org/example-project/issues/74)) ([a9a0627](https://github.com/jumic-test-org/example-project/commit/a9a062717a1f78a8776f4342f46a44897d13d80d))
+
 ## [1.3.0](https://github.com/jumic-test-org/example-project/compare/v1.2.4...v1.3.0) (2026-03-21)
 
 
