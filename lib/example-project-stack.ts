@@ -20,8 +20,13 @@ export class ExampleProjectStack extends cdk.Stack {
       enforceSSL: true,
     });
 
+    const queue3 = new sqs.Queue(this, 'ExampleProjectQueue3', {
+      visibilityTimeout: cdk.Duration.seconds(300),
+      enforceSSL: true,
+    });
+
     NagSuppressions.addResourceSuppressions(
-      [queue1, queue2],
+      [queue1, queue2, queue3],
       [
         {
           id: 'AwsSolutions-SQS3',
