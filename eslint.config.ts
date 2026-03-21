@@ -8,7 +8,7 @@ export default [
   ...tseslint.configs.recommendedTypeChecked,
 
   {
-    ignores: ['*.config.js', '*.config.ts', 'cdk.out/**', 'node_modules/**'],
+    ignores: ['*.config.js', '*.config.ts', 'cdk.out/**', 'node_modules/**', 'dist/**'],
   },
 
   {
