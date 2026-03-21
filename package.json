@@ -7,6 +7,9 @@
   "bin": {
     "example-project": "bin/example-project.js"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",

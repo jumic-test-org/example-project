@@ -19,7 +19,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "dist"
   },
-  "exclude": ["node_modules", "cdk.out", "eslint.config.ts"]
+  "include": ["lib/**/*.ts", "bin/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "cdk.out", "eslint.config.ts", "dist"]
 }
