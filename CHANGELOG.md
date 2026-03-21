@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/jumic-test-org/example-project/compare/v1.3.1...v1.3.2) (2026-03-21)
+
+
+### Bug Fixes
+
+* add comment ([#76](https://github.com/jumic-test-org/example-project/issues/76)) ([b05dc34](https://github.com/jumic-test-org/example-project/commit/b05dc347caf566d112ddc96340713de054cc82ea))
+
 ## [1.3.1](https://github.com/jumic-test-org/example-project/compare/v1.3.0...v1.3.1) (2026-03-21)
 
 
