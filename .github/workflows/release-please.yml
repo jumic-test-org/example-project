@@ -38,7 +38,8 @@ jobs:
             --domain my-domain \
             --domain-owner 857739166276 \
             --repository my-repo \
-            --region eu-central-1
+            --region eu-central-1 \
+            --namespace @my-org
         if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
         if: ${{ steps.release.outputs.release_created }}
