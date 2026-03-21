@@ -17,3 +17,28 @@ jobs:
       - uses: googleapis/release-please-action@v4
         with:
           release-type: node
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::857739166276:role/GitHubCodeArtifactRole
+          aws-region: eu-central-1
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Login to AWS CodeArtifact
+        run: |
+          aws codeartifact login \
+            --tool npm \
+            --domain my-domain \
+            --domain-owner 857739166276 \
+            --repository my-repo
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
