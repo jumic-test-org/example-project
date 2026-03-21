@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/jumic-test-org/example-project/compare/v1.3.4...v1.4.0) (2026-03-21)
+
+
+### Features
+
+* publish cdk stack ([#83](https://github.com/jumic-test-org/example-project/issues/83)) ([328ff95](https://github.com/jumic-test-org/example-project/commit/328ff9562441386c93396dcecbb0c0dcf61e75da))
+
 ## [1.3.4](https://github.com/jumic-test-org/example-project/compare/v1.3.3...v1.3.4) (2026-03-21)
 
 
