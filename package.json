@@ -45,6 +45,6 @@
     "aws-cdk-lib": "2.243.0",
     "cdk-nag": "^2.37.55",
     "constructs": "^10.0.0",
-    "fast-xml-parser": "^5.5.7"
+    "fast-xml-parser": "^5.5.8"
   }
 }
