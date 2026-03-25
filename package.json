@@ -34,7 +34,7 @@
     "globals": "^17.4.0",
     "jest": "^30",
     "jiti": "^2.6.1",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.0",
     "ts-jest": "^29",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
