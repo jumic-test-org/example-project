@@ -30,6 +30,6 @@ export class ExampleProjectStack extends cdk.Stack {
         },
       ],
     );
-    // test
+    // test 2
   }
 }
