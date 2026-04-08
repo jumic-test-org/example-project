@@ -38,7 +38,7 @@
     "ts-jest": "^29",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.58.0"
+    "typescript-eslint": "^8.58.1"
   },
   "dependencies": {
     "ajv": "^8.18.0",
