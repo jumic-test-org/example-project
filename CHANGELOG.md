@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/jumic-test-org/example-project/compare/v1.4.2...v1.5.0) (2026-04-30)
+
+
+### Features
+
+* add ajv test ([#89](https://github.com/jumic-test-org/example-project/issues/89)) ([f82eef1](https://github.com/jumic-test-org/example-project/commit/f82eef1a0263b9ea3921b57bcdecda4290e355b6))
+
+
+### Bug Fixes
+
+* test ([#102](https://github.com/jumic-test-org/example-project/issues/102)) ([a13689e](https://github.com/jumic-test-org/example-project/commit/a13689e358639dbcb49895b68d8962df16f3588d))
+
 ## [1.4.2](https://github.com/jumic-test-org/example-project/compare/v1.4.1...v1.4.2) (2026-03-21)
 
 
