@@ -17,4 +17,4 @@ new ExampleProjectStack(app, 'ExampleProjectStack', {
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
 
-cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+cdk.Validations.of(app).addPlugins(new AwsSolutionsChecks(app));

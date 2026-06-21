@@ -1,7 +1,6 @@
 import * as cdk from 'aws-cdk-lib/core';
 import type { Construct } from 'constructs';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
-import { NagSuppressions } from 'cdk-nag';
 
 export class ExampleProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -21,15 +20,12 @@ export class ExampleProjectStack extends cdk.Stack {
       enforceSSL: true,
     });
 
-    NagSuppressions.addResourceSuppressions(
-      [queue1, queue2],
-      [
-        {
-          id: 'AwsSolutions-SQS3',
-          reason: 'Just some sample queues, no DLQ required',
-        },
-      ],
-    );
+    for (const queue of [queue1, queue2]) {
+      cdk.Validations.of(queue).acknowledge({
+        id: 'AwsSolutions-SQS3',
+        reason: 'Just some sample queues, no DLQ required',
+      });
+    }
     // test 2
   }
 }
