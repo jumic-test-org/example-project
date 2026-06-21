@@ -46,5 +46,8 @@
     "cdk-nag": "^2.38.2",
     "constructs": "^10.6.0",
     "fast-xml-parser": "^5.9.2"
+  },
+  "overrides": {
+    "js-yaml": "4.2.0"
   }
 }
