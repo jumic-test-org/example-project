@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib/core';
 import type { Construct } from 'constructs';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class ExampleProjectStack extends cdk.Stack {
@@ -20,7 +22,12 @@ export class ExampleProjectStack extends cdk.Stack {
       enforceSSL: true,
     });
 
-    for (const queue of [queue1, queue2]) {
+    for (const [index, queue] of [queue1, queue2].entries()) {
+      const topic = new sns.Topic(this, `ExampleProjectQueue${index + 1}Topic`, {
+        enforceSSL: true,
+      });
+      topic.addSubscription(new subscriptions.SqsSubscription(queue));
+
       cdk.Validations.of(queue).acknowledge({
         id: 'AwsSolutions-SQS3',
         reason: 'Just some sample queues, no DLQ required',
