@@ -13,6 +13,7 @@ test('SQS Queue Created', () => {
   template.resourceCountIs('AWS::SQS::Queue', 2);
   template.resourceCountIs('AWS::SNS::Topic', 2);
   template.resourceCountIs('AWS::SNS::Subscription', 2);
+  template.resourceCountIs('AWS::SNS::TopicPolicy', 2);
   template.resourceCountIs('AWS::SQS::QueuePolicy', 2);
 
   template.hasResourceProperties('AWS::SQS::Queue', {
