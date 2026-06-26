@@ -14,3 +14,24 @@ test('SQS Queue Created', () => {
     VisibilityTimeout: 300,
   });
 });
+
+test('SNS Topics Created', () => {
+  const app = new cdk.App();
+  // WHEN
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  // THEN
+  const template = Template.fromStack(stack);
+  template.resourceCountIs('AWS::SNS::Topic', 2);
+});
+
+test('SNS Subscriptions Created', () => {
+  const app = new cdk.App();
+  // WHEN
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  // THEN
+  const template = Template.fromStack(stack);
+  template.resourceCountIs('AWS::SNS::Subscription', 2);
+  template.hasResourceProperties('AWS::SNS::Subscription', {
+    Protocol: 'sqs',
+  });
+});
