@@ -1,0 +1,25 @@
+{
+  "project_type": "AWS CDK v2 TypeScript infrastructure-as-code project",
+  "language": "TypeScript ~5.9.3",
+  "build_system": "npm scripts wrapping tsc, jest, eslint, prettier, cdk synth",
+  "test_framework": "Jest with ts-jest transform and aws-cdk-lib/assertions (Template.fromStack pattern)",
+  "build_command": "npm run typecheck",
+  "test_command": "npm test",
+  "verification_instructions": "Run in order: npm run format, npm run lint, npm run typecheck, npm test, npm run cdk-nag. All must pass.",
+  "snapshot_or_generated_files": null,
+  "setup_instructions": "npm install (already done)",
+  "environment_constraints": "OPEN_INTERNET network mode. Node.js v22 available (package.json requires >=24 but works). No Docker needed.",
+  "contribution_requirements": "Branch naming: feat/<name>. PR title: Conventional Commits format. Run npm run format before committing. All CI checks must pass: format-check, lint, typecheck, cdk-nag.",
+  "key_patterns": "Namespace imports for CDK modules (import * as s3 from 'aws-cdk-lib/aws-s3'). import type for type-only imports. PascalCase for construct IDs. enforceSSL on queues. All encryption via existing ExampleProjectKey KMS key. cdk-nag acknowledgements via cdk.Validations.of(resource).acknowledge(). Single quotes, semicolons, trailing commas. 100 char line width.",
+  "relevant_files": [
+    "lib/example-project-stack.ts",
+    "lib/index.ts",
+    "bin/example-project.ts",
+    "test/example-project.test.ts",
+    "cdk.json",
+    "package.json",
+    ".kiro/steering/cdk-conventions.md",
+    ".kiro/steering/coding-conventions.md"
+  ],
+  "directory_structure": "bin/ - CDK app entry point. lib/ - Stack definitions exported via index.ts barrel. test/ - Jest tests using CDK assertions. .kiro/steering/ - Project conventions."
+}
