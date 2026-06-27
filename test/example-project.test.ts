@@ -66,3 +66,66 @@ test('SNS Topics are encrypted with Customer Managed KMS Key', () => {
     },
   });
 });
+
+test('S3 Bucket is created with KMS encryption', () => {
+  const app = new cdk.App();
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties('AWS::S3::Bucket', {
+    BucketEncryption: {
+      ServerSideEncryptionConfiguration: [
+        {
+          ServerSideEncryptionByDefault: {
+            SSEAlgorithm: 'aws:kms',
+            KMSMasterKeyID: {
+              'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectKey'), 'Arn'],
+            },
+          },
+        },
+      ],
+    },
+    VersioningConfiguration: {
+      Status: 'Enabled',
+    },
+  });
+});
+
+test('Lambda function is created with Node.js 22.x runtime', () => {
+  const app = new cdk.App();
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties('AWS::Lambda::Function', {
+    Runtime: 'nodejs22.x',
+    Handler: 'index.handler',
+    Timeout: 30,
+  });
+});
+
+test('Lambda has SQS event source mapping', () => {
+  const app = new cdk.App();
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties('AWS::Lambda::EventSourceMapping', {
+    EventSourceArn: {
+      'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectQueue1'), 'Arn'],
+    },
+    FunctionName: {
+      Ref: Match.stringLikeRegexp('SqsToS3Function'),
+    },
+  });
+});
+
+test('Lambda has BUCKET_NAME environment variable', () => {
+  const app = new cdk.App();
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties('AWS::Lambda::Function', {
+    Environment: {
+      Variables: {
+        BUCKET_NAME: {
+          Ref: Match.stringLikeRegexp('ExampleProjectMessageBucket'),
+        },
+      },
+    },
+  });
+});

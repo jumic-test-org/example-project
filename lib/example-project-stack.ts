@@ -4,6 +4,10 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as logs from 'aws-cdk-lib/aws-logs';
 
 export class ExampleProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -52,6 +56,101 @@ export class ExampleProjectStack extends cdk.Stack {
         reason: 'Just some sample queues, no DLQ required',
       });
     }
+
+    // S3 Bucket for persisting SQS messages
+    const messageBucket = new s3.Bucket(this, 'ExampleProjectMessageBucket', {
+      encryptionKey: key,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      enforceSSL: true,
+      versioned: true,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    // CloudWatch Logs LogGroup for the Lambda function
+    const sqsToS3LogGroup = new logs.LogGroup(this, 'SqsToS3FunctionLogGroup', {
+      retention: logs.RetentionDays.ONE_WEEK,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    // Lambda function that reads messages from SQS and writes them to S3
+    const sqsToS3Function = new lambda.Function(this, 'SqsToS3Function', {
+      runtime: lambda.Runtime.NODEJS_22_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromInline(
+        `
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const s3Client = new S3Client();
+
+exports.handler = async (event) => {
+  const bucketName = process.env.BUCKET_NAME;
+  for (const record of event.Records) {
+    const messageId = record.messageId;
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const key = \`messages/\${timestamp}_\${messageId}.json\`;
+    await s3Client.send(new PutObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+      Body: record.body,
+      ContentType: 'application/json',
+    }));
+  }
+};
+      `.trim(),
+      ),
+      timeout: cdk.Duration.seconds(30),
+      environment: {
+        BUCKET_NAME: messageBucket.bucketName,
+      },
+      logGroup: sqsToS3LogGroup,
+    });
+
+    // Add SQS event source to Lambda
+    sqsToS3Function.addEventSource(new lambdaEventSources.SqsEventSource(queue1));
+
+    // Grant permissions
+    messageBucket.grantWrite(sqsToS3Function);
+    queue1.grantConsumeMessages(sqsToS3Function);
+    key.grantEncryptDecrypt(sqsToS3Function);
+
+    // cdk-nag acknowledgements
+    cdk.Validations.of(messageBucket).acknowledge({
+      id: 'AwsSolutions-S1',
+      reason:
+        'Server access logging is not required for this message storage bucket in this example project',
+    });
+
+    cdk.Validations.of(sqsToS3Function).acknowledge({
+      id: 'AwsSolutions-L1',
+      reason: 'Using Node.js 22.x which is the latest supported runtime for this project',
+    });
+
+    // Acknowledge IAM4 and IAM5 findings via construct metadata directly because
+    // the finding IDs contain '::' which cdk.Validations.of().acknowledge() rejects.
+    const iamAcknowledgements: Record<string, string> = {
+      'AwsSolutions-IAM4[Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]':
+        'The AWSLambdaBasicExecutionRole managed policy is required for Lambda CloudWatch logging',
+      'AwsSolutions-IAM5[Action::kms:GenerateDataKey*]':
+        'Wildcard in kms:GenerateDataKey* is required by CDK grant methods for KMS operations',
+      'AwsSolutions-IAM5[Action::kms:ReEncrypt*]':
+        'Wildcard in kms:ReEncrypt* is required by CDK grant methods for KMS operations',
+      'AwsSolutions-IAM5[Action::s3:Abort*]':
+        'Wildcard in s3:Abort* is granted by CDK bucket.grantWrite() for multipart uploads',
+      'AwsSolutions-IAM5[Action::s3:DeleteObject*]':
+        'Wildcard in s3:DeleteObject* is granted by CDK bucket.grantWrite() for object operations',
+      [`AwsSolutions-IAM5[Resource::<${this.getLogicalId(messageBucket.node.defaultChild as cdk.CfnElement)}.Arn>/*]`]:
+        'Wildcard resource path is required for S3 object-level operations granted by bucket.grantWrite()',
+    };
+
+    for (const [id, reason] of Object.entries(iamAcknowledgements)) {
+      sqsToS3Function.node.addMetadata(cdk.Validations.ACKNOWLEDGED_RULES_METADATA_KEY, {
+        [id]: reason,
+      });
+    }
+
+    cdk.Validations.of(sqsToS3Function).acknowledge({
+      id: 'AwsSolutions-SQS3',
+      reason: 'The source queue does not need a separate DLQ for Lambda event source processing',
+    });
     // test 2
   }
 }
