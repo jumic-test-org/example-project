@@ -158,3 +158,34 @@ Use type imports for construct types:
 import type { Construct } from 'constructs';
 import type { StackProps } from 'aws-cdk-lib/core';
 ```
+
+## Lambda Runtime Policy
+
+Lambda functions **MUST** always use the latest Node.js runtime version available in CDK
+(e.g., `lambda.Runtime.NODEJS_24_X` as of CDK v2.260+). Do **not** pin to older runtimes.
+
+When using the latest runtime, the `AwsSolutions-L1` cdk-nag rule will not trigger. Do **not**
+create cdk-nag suppressions or acknowledgements for `AwsSolutions-L1` to justify using an
+older runtime. Instead, upgrade to the latest runtime.
+
+## Lambda Handler Code
+
+**Never** use `lambda.Code.fromInline()` in this project. All Lambda handler code must be
+placed in a separate TypeScript file under `lib/handlers/` and bundled using
+`NodejsFunction` from `aws-cdk-lib/aws-lambda-nodejs`.
+
+Example:
+
+```typescript
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as path from 'node:path';
+
+const fn = new lambdaNodejs.NodejsFunction(this, 'MyFunction', {
+  runtime: lambda.Runtime.NODEJS_24_X,
+  entry: path.join(__dirname, 'handlers', 'my-handler.ts'),
+  handler: 'handler',
+});
+```
+
+The handler file (e.g., `lib/handlers/my-handler.ts`) should export a named `handler`
+function with proper TypeScript types for the event and response.

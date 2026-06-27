@@ -90,12 +90,12 @@ test('S3 Bucket is created with KMS encryption', () => {
   });
 });
 
-test('Lambda function is created with Node.js 22.x runtime', () => {
+test('Lambda function is created with Node.js 24.x runtime', () => {
   const app = new cdk.App();
   const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
   const template = Template.fromStack(stack);
   template.hasResourceProperties('AWS::Lambda::Function', {
-    Runtime: 'nodejs22.x',
+    Runtime: 'nodejs24.x',
     Handler: 'index.handler',
     Timeout: 30,
   });
@@ -108,6 +108,21 @@ test('Lambda has SQS event source mapping with partial-batch failure reporting',
   template.hasResourceProperties('AWS::Lambda::EventSourceMapping', {
     EventSourceArn: {
       'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectQueue1'), 'Arn'],
+    },
+    FunctionName: {
+      Ref: Match.stringLikeRegexp('SqsToS3Function'),
+    },
+    FunctionResponseTypes: ['ReportBatchItemFailures'],
+  });
+});
+
+test('Lambda has SQS event source mapping for queue2 with partial-batch failure reporting', () => {
+  const app = new cdk.App();
+  const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
+  const template = Template.fromStack(stack);
+  template.hasResourceProperties('AWS::Lambda::EventSourceMapping', {
+    EventSourceArn: {
+      'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectQueue2'), 'Arn'],
     },
     FunctionName: {
       Ref: Match.stringLikeRegexp('SqsToS3Function'),

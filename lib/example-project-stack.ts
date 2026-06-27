@@ -6,8 +6,10 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as path from 'node:path';
 
 export class ExampleProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -73,38 +75,10 @@ export class ExampleProjectStack extends cdk.Stack {
     });
 
     // Lambda function that reads messages from SQS and writes them to S3
-    const sqsToS3Function = new lambda.Function(this, 'SqsToS3Function', {
-      runtime: lambda.Runtime.NODEJS_22_X,
-      handler: 'index.handler',
-      code: lambda.Code.fromInline(
-        `
-const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
-const s3Client = new S3Client();
-
-exports.handler = async (event) => {
-  const bucketName = process.env.BUCKET_NAME;
-  const batchItemFailures = [];
-  for (const record of event.Records) {
-    try {
-      const messageId = record.messageId;
-      const sentTimestamp = record.attributes.SentTimestamp;
-      const timestamp = new Date(Number(sentTimestamp)).toISOString().replace(/[:.]/g, '-');
-      const key = \`messages/\${timestamp}_\${messageId}.json\`;
-      await s3Client.send(new PutObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-        Body: record.body,
-        ContentType: 'application/json',
-      }));
-    } catch (error) {
-      console.error(\`Failed to process message \${record.messageId}:\`, error);
-      batchItemFailures.push({ itemIdentifier: record.messageId });
-    }
-  }
-  return { batchItemFailures };
-};
-      `.trim(),
-      ),
+    const sqsToS3Function = new lambdaNodejs.NodejsFunction(this, 'SqsToS3Function', {
+      runtime: lambda.Runtime.NODEJS_24_X,
+      entry: path.join(__dirname, 'handlers', 'sqs-to-s3-handler.ts'),
+      handler: 'handler',
       timeout: cdk.Duration.seconds(30),
       environment: {
         BUCKET_NAME: messageBucket.bucketName,
@@ -112,9 +86,14 @@ exports.handler = async (event) => {
       logGroup: sqsToS3LogGroup,
     });
 
-    // Add SQS event source to Lambda with partial-batch failure reporting
+    // Add SQS event sources to Lambda with partial-batch failure reporting
     sqsToS3Function.addEventSource(
       new lambdaEventSources.SqsEventSource(queue1, {
+        reportBatchItemFailures: true,
+      }),
+    );
+    sqsToS3Function.addEventSource(
+      new lambdaEventSources.SqsEventSource(queue2, {
         reportBatchItemFailures: true,
       }),
     );
@@ -122,18 +101,13 @@ exports.handler = async (event) => {
     // Grant permissions
     messageBucket.grantPut(sqsToS3Function);
     queue1.grantConsumeMessages(sqsToS3Function);
+    queue2.grantConsumeMessages(sqsToS3Function);
     key.grantEncryptDecrypt(sqsToS3Function);
 
-    // cdk-nag acknowledgements
     cdk.Validations.of(messageBucket).acknowledge({
       id: 'AwsSolutions-S1',
       reason:
         'Server access logging is not required for this message storage bucket in this example project',
-    });
-
-    cdk.Validations.of(sqsToS3Function).acknowledge({
-      id: 'AwsSolutions-L1',
-      reason: 'Using Node.js 22.x which is the latest supported runtime for this project',
     });
 
     // Acknowledge IAM4 and IAM5 findings via construct metadata directly because
