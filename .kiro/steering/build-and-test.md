@@ -90,3 +90,10 @@ If lint fails, try auto-fixing:
 ```bash
 npm run lint:fix
 ```
+
+## Excluding Generated Files from Formatting
+
+Auto-generated directories (such as `.agents/` for task metadata) must be listed in
+`.prettierignore` at the repository root. If you add a new generated or metadata directory
+to the project, append it to `.prettierignore` so that `npm run format-check` does not
+flag files that are not meant to follow project formatting rules.
