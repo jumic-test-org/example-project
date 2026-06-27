@@ -2,7 +2,7 @@
   "id": "FEAT-001",
   "type": "feat",
   "description": "Add a Customer Managed KMS Key with key rotation enabled and use it to encrypt all SQS Queues and SNS Topics in the stack",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "In lib/example-project-stack.ts, add an import for aws-cdk-lib/aws-kms",
     "Create a new kms.Key construct with enableKeyRotation: true. Give it a logical ID like 'ExampleProjectKey' and optionally add an alias and description for clarity.",
@@ -27,5 +27,5 @@
     "npx cdk synth '**'"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "All verification steps passed. Build, tests (6/6), and cdk synth with cdk-nag AwsSolutions checks all succeeded. The KMS key auto-grants decrypt/generateDataKey permissions to SNS service principal via CDK."
 }
