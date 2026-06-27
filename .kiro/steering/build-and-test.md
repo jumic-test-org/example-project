@@ -90,3 +90,9 @@ If lint fails, try auto-fixing:
 ```bash
 npm run lint:fix
 ```
+
+## Formatting All Files Before Committing
+
+Always run `npm run format` before committing to auto-format all files, including generated
+metadata files (such as those in `.agents/`). Every file in the repository must pass
+`npm run format-check` in CI, so ensure formatting is applied to all tracked files.
