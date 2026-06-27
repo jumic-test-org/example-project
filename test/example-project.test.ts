@@ -50,7 +50,9 @@ test('SQS Queues are encrypted with Customer Managed KMS Key', () => {
   const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
   const template = Template.fromStack(stack);
   template.hasResourceProperties('AWS::SQS::Queue', {
-    KmsMasterKeyId: Match.anyValue(),
+    KmsMasterKeyId: {
+      'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectKey'), 'Arn'],
+    },
   });
 });
 
@@ -59,6 +61,8 @@ test('SNS Topics are encrypted with Customer Managed KMS Key', () => {
   const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
   const template = Template.fromStack(stack);
   template.hasResourceProperties('AWS::SNS::Topic', {
-    KmsMasterKeyId: Match.anyValue(),
+    KmsMasterKeyId: {
+      'Fn::GetAtt': [Match.stringLikeRegexp('ExampleProjectKey'), 'Arn'],
+    },
   });
 });

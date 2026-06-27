@@ -15,6 +15,7 @@ export class ExampleProjectStack extends cdk.Stack {
     const key = new kms.Key(this, 'ExampleProjectKey', {
       enableKeyRotation: true,
       description: 'Customer Managed Key for encrypting Example Project resources',
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
     // example resource 1
