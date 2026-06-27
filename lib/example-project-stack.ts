@@ -83,17 +83,25 @@ const s3Client = new S3Client();
 
 exports.handler = async (event) => {
   const bucketName = process.env.BUCKET_NAME;
+  const batchItemFailures = [];
   for (const record of event.Records) {
-    const messageId = record.messageId;
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const key = \`messages/\${timestamp}_\${messageId}.json\`;
-    await s3Client.send(new PutObjectCommand({
-      Bucket: bucketName,
-      Key: key,
-      Body: record.body,
-      ContentType: 'application/json',
-    }));
+    try {
+      const messageId = record.messageId;
+      const sentTimestamp = record.attributes.SentTimestamp;
+      const timestamp = new Date(Number(sentTimestamp)).toISOString().replace(/[:.]/g, '-');
+      const key = \`messages/\${timestamp}_\${messageId}.json\`;
+      await s3Client.send(new PutObjectCommand({
+        Bucket: bucketName,
+        Key: key,
+        Body: record.body,
+        ContentType: 'application/json',
+      }));
+    } catch (error) {
+      console.error(\`Failed to process message \${record.messageId}:\`, error);
+      batchItemFailures.push({ itemIdentifier: record.messageId });
+    }
   }
+  return { batchItemFailures };
 };
       `.trim(),
       ),
@@ -104,11 +112,15 @@ exports.handler = async (event) => {
       logGroup: sqsToS3LogGroup,
     });
 
-    // Add SQS event source to Lambda
-    sqsToS3Function.addEventSource(new lambdaEventSources.SqsEventSource(queue1));
+    // Add SQS event source to Lambda with partial-batch failure reporting
+    sqsToS3Function.addEventSource(
+      new lambdaEventSources.SqsEventSource(queue1, {
+        reportBatchItemFailures: true,
+      }),
+    );
 
     // Grant permissions
-    messageBucket.grantWrite(sqsToS3Function);
+    messageBucket.grantPut(sqsToS3Function);
     queue1.grantConsumeMessages(sqsToS3Function);
     key.grantEncryptDecrypt(sqsToS3Function);
 
@@ -134,11 +146,9 @@ exports.handler = async (event) => {
       'AwsSolutions-IAM5[Action::kms:ReEncrypt*]':
         'Wildcard in kms:ReEncrypt* is required by CDK grant methods for KMS operations',
       'AwsSolutions-IAM5[Action::s3:Abort*]':
-        'Wildcard in s3:Abort* is granted by CDK bucket.grantWrite() for multipart uploads',
-      'AwsSolutions-IAM5[Action::s3:DeleteObject*]':
-        'Wildcard in s3:DeleteObject* is granted by CDK bucket.grantWrite() for object operations',
+        'Wildcard in s3:Abort* is granted by CDK bucket.grantPut() for multipart upload abort',
       [`AwsSolutions-IAM5[Resource::<${this.getLogicalId(messageBucket.node.defaultChild as cdk.CfnElement)}.Arn>/*]`]:
-        'Wildcard resource path is required for S3 object-level operations granted by bucket.grantWrite()',
+        'Wildcard resource path is required for S3 object-level operations granted by bucket.grantPut()',
     };
 
     for (const [id, reason] of Object.entries(iamAcknowledgements)) {
