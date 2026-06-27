@@ -21,11 +21,7 @@
     "npm test passes with all tests green including new encryption tests",
     "npx cdk synth passes without cdk-nag errors"
   ],
-  "verification": [
-    "npm run build",
-    "npm test",
-    "npx cdk synth '**'"
-  ],
+  "verification": ["npm run build", "npm test", "npx cdk synth '**'"],
   "blocked_reason": null,
   "findings": "All verification steps passed. Build, tests (6/6), and cdk synth with cdk-nag AwsSolutions checks all succeeded. The KMS key auto-grants decrypt/generateDataKey permissions to SNS service principal via CDK."
 }

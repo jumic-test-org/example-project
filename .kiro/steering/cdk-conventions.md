@@ -101,6 +101,45 @@ Do not remove existing feature flags unless you understand the implications for 
 - **Enable logging** for API Gateways, Load Balancers, and CloudTrail
 - **Set removal policies appropriately** - use `RETAIN` for production data stores
 
+## Encryption with Customer Managed KMS Key
+
+All AWS resources in this project that support encryption **MUST** be encrypted using the
+Customer Managed KMS Key (`ExampleProjectKey`) defined in `lib/example-project-stack.ts`.
+
+The key is configured with:
+
+- `enableKeyRotation: true`
+- `removalPolicy: cdk.RemovalPolicy.RETAIN`
+
+When adding new resources that support encryption (S3 buckets, DynamoDB tables, SNS topics,
+SQS queues, Kinesis streams, EBS volumes, RDS instances, etc.), always reference this
+existing KMS key for encryption. For example:
+
+```typescript
+import * as kms from 'aws-cdk-lib/aws-kms';
+
+// Reference the existing key (already defined in the stack)
+const key = new kms.Key(this, 'ExampleProjectKey', { ... });
+
+// SQS Queue
+new sqs.Queue(this, 'MyQueue', {
+  encryptionMasterKey: key,
+});
+
+// SNS Topic
+new sns.Topic(this, 'MyTopic', {
+  masterKey: key,
+});
+
+// S3 Bucket
+new s3.Bucket(this, 'MyBucket', {
+  encryptionKey: key,
+});
+```
+
+Do **not** create additional KMS keys unless there is a specific compliance requirement
+for key separation. Using a single shared key simplifies key management and rotation.
+
 ## Import Patterns for CDK
 
 Use namespace imports for AWS service modules:
