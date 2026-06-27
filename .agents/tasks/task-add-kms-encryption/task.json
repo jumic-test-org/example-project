@@ -1,0 +1,7 @@
+{
+  "task_id": "task-add-kms-encryption",
+  "task_description": "Add Customer Managed KMS Key encryption with key rotation enabled to all AWS resources (SQS Queues and SNS Topics) in the CDK stack",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001"],
+  "blocked_reason": null
+}

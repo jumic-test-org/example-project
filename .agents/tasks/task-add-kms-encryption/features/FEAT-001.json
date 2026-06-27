@@ -1,0 +1,31 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Add a Customer Managed KMS Key with key rotation enabled and use it to encrypt all SQS Queues and SNS Topics in the stack",
+  "status": "in_progress",
+  "steps": [
+    "In lib/example-project-stack.ts, add an import for aws-cdk-lib/aws-kms",
+    "Create a new kms.Key construct with enableKeyRotation: true. Give it a logical ID like 'ExampleProjectKey' and optionally add an alias and description for clarity.",
+    "Update both SQS Queue constructs (ExampleProjectQueue1, ExampleProjectQueue2) to add the 'encryptionMasterKey' property pointing to the KMS key",
+    "Update both SNS Topic constructs (ExampleProjectTopic1, ExampleProjectTopic2) to add the 'masterKey' property pointing to the KMS key",
+    "Update the tests in test/example-project.test.ts to verify: (1) A KMS Key resource exists with EnableKeyRotation: true, (2) The SQS Queues reference the KMS key for encryption (KmsMasterKeyId is set), (3) The SNS Topics reference the KMS key for encryption (KmsMasterKeyId is set)",
+    "Run 'npm run build' to verify TypeScript compilation passes",
+    "Run 'npm test' to verify all tests pass",
+    "Run 'npx cdk synth \"**\"' to verify cdk-nag AwsSolutions checks pass with the encryption in place"
+  ],
+  "acceptance_criteria": [
+    "A KMS Key with enableKeyRotation: true exists in the stack",
+    "All SQS Queues are encrypted with the Customer Managed KMS Key",
+    "All SNS Topics are encrypted with the Customer Managed KMS Key",
+    "npm run build compiles without errors",
+    "npm test passes with all tests green including new encryption tests",
+    "npx cdk synth passes without cdk-nag errors"
+  ],
+  "verification": [
+    "npm run build",
+    "npm test",
+    "npx cdk synth '**'"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

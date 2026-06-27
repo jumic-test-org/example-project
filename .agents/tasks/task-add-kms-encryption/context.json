@@ -1,0 +1,21 @@
+{
+  "project_type": "AWS CDK TypeScript project with cdk-nag AwsSolutions checks",
+  "language": "TypeScript",
+  "build_system": "npm with tsc for compilation, CDK for infrastructure synthesis",
+  "test_framework": "Jest with ts-jest transform, using aws-cdk-lib/assertions Template matching",
+  "build_command": "npm run build",
+  "test_command": "npm test",
+  "verification_instructions": "1. Run 'npm run build' to compile TypeScript. 2. Run 'npm test' to run Jest unit tests. 3. Run 'npx cdk synth \"**\"' to validate CDK synthesis and cdk-nag checks pass.",
+  "snapshot_or_generated_files": null,
+  "setup_instructions": "npm install",
+  "environment_constraints": "Node v22.22.3 available (project requests >=24 but works with 22). npm packages already installed.",
+  "contribution_requirements": "CI runs prettier check, eslint, typecheck, and cdk-nag. All must pass.",
+  "key_patterns": "Stack defined in lib/example-project-stack.ts. Uses aws-cdk-lib constructs (sqs.Queue, sns.Topic). cdk-nag AwsSolutionsChecks plugin applied in bin/example-project.ts. Tests use Template.fromStack() assertions. Validations.of().acknowledge() used to suppress specific nag rules.",
+  "relevant_files": [
+    "lib/example-project-stack.ts",
+    "test/example-project.test.ts",
+    "bin/example-project.ts",
+    "lib/index.ts"
+  ],
+  "directory_structure": "bin/ - CDK app entry point; lib/ - stack definitions; test/ - Jest tests; .github/workflows/ - CI (build.yml)"
+}
