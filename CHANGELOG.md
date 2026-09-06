@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.5.0](https://github.com/jumic-test-org/example-project/compare/v1.4.2...v1.5.0) (2026-09-06)
+
+
+### Features
+
+* add .kiro/steering files for agentic development ([#235](https://github.com/jumic-test-org/example-project/issues/235)) ([040c9d0](https://github.com/jumic-test-org/example-project/commit/040c9d0ef1fcfb13d6a8dee1ccad7f153f2a0c14)), closes [#234](https://github.com/jumic-test-org/example-project/issues/234)
+* add ajv test ([#89](https://github.com/jumic-test-org/example-project/issues/89)) ([f82eef1](https://github.com/jumic-test-org/example-project/commit/f82eef1a0263b9ea3921b57bcdecda4290e355b6))
+* add Customer Managed KMS Key encryption for all resources ([#238](https://github.com/jumic-test-org/example-project/issues/238)) ([52f56e3](https://github.com/jumic-test-org/example-project/commit/52f56e3a9e96d9e2e967e237d8afa47b3b9e49d8))
+* add SNS Topic for each SQS Queue ([#233](https://github.com/jumic-test-org/example-project/issues/233)) ([ecf75e7](https://github.com/jumic-test-org/example-project/commit/ecf75e79fc571986d5bac78f21fee474490b4e40))
+* deliver SQS messages to S3 bucket ([#239](https://github.com/jumic-test-org/example-project/issues/239)) ([372cdbf](https://github.com/jumic-test-org/example-project/commit/372cdbf9db39d84ee952ec02f1ef0a3a65f6e628))
+
+
+### Bug Fixes
+
+* resolve all npm audit vulnerabilities ([#287](https://github.com/jumic-test-org/example-project/issues/287)) ([05aed37](https://github.com/jumic-test-org/example-project/commit/05aed37bc7d40294adda4cbd57cacce13842fa68))
+* test ([#102](https://github.com/jumic-test-org/example-project/issues/102)) ([a13689e](https://github.com/jumic-test-org/example-project/commit/a13689e358639dbcb49895b68d8962df16f3588d))
+
 ## [1.4.2](https://github.com/jumic-test-org/example-project/compare/v1.4.1...v1.4.2) (2026-03-21)
 
 
