@@ -90,12 +90,12 @@ test('S3 Bucket is created with KMS encryption', () => {
   });
 });
 
-test('Lambda function is created with Node.js 24.x runtime', () => {
+test('Lambda function is created with Node.js 26.x runtime', () => {
   const app = new cdk.App();
   const stack = new ExampleProject.ExampleProjectStack(app, 'MyTestStack');
   const template = Template.fromStack(stack);
   template.hasResourceProperties('AWS::Lambda::Function', {
-    Runtime: 'nodejs24.x',
+    Runtime: 'nodejs26.x',
     Handler: 'index.handler',
     Timeout: 30,
   });
