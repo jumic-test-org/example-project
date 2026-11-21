@@ -76,7 +76,7 @@ export class ExampleProjectStack extends cdk.Stack {
 
     // Lambda function that reads messages from SQS and writes them to S3
     const sqsToS3Function = new lambdaNodejs.NodejsFunction(this, 'SqsToS3Function', {
-      runtime: lambda.Runtime.NODEJS_24_X,
+      runtime: lambda.Runtime.NODEJS_26_X,
       entry: path.join(__dirname, 'handlers', 'sqs-to-s3-handler.ts'),
       handler: 'handler',
       timeout: cdk.Duration.seconds(30),
