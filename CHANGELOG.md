@@ -1,5 +1,45 @@
 # Changelog
 
+## 1.0.0 (2026-11-22)
+
+
+### Features
+
+* add .kiro/steering files for agentic development ([#235](https://github.com/jumic-test-org/example-project/issues/235)) ([040c9d0](https://github.com/jumic-test-org/example-project/commit/040c9d0ef1fcfb13d6a8dee1ccad7f153f2a0c14)), closes [#234](https://github.com/jumic-test-org/example-project/issues/234)
+* add ajv test ([#89](https://github.com/jumic-test-org/example-project/issues/89)) ([f82eef1](https://github.com/jumic-test-org/example-project/commit/f82eef1a0263b9ea3921b57bcdecda4290e355b6))
+* add another queue ([#72](https://github.com/jumic-test-org/example-project/issues/72)) ([0291d3e](https://github.com/jumic-test-org/example-project/commit/0291d3eb2784e9836e192f75eba7414206281491))
+* add Customer Managed KMS Key encryption for all resources ([#238](https://github.com/jumic-test-org/example-project/issues/238)) ([52f56e3](https://github.com/jumic-test-org/example-project/commit/52f56e3a9e96d9e2e967e237d8afa47b3b9e49d8))
+* Add release-please workflow ([#8](https://github.com/jumic-test-org/example-project/issues/8)) ([f17cf20](https://github.com/jumic-test-org/example-project/commit/f17cf20bd3c5cba11915fff30417afab94dc26be))
+* add second queue ([#18](https://github.com/jumic-test-org/example-project/issues/18)) ([0536a40](https://github.com/jumic-test-org/example-project/commit/0536a401cd7bf0b60970e6c4b6936523e8a42fc1))
+* add SNS Topic for each SQS Queue ([#233](https://github.com/jumic-test-org/example-project/issues/233)) ([ecf75e7](https://github.com/jumic-test-org/example-project/commit/ecf75e79fc571986d5bac78f21fee474490b4e40))
+* deliver SQS messages to S3 bucket ([#239](https://github.com/jumic-test-org/example-project/issues/239)) ([372cdbf](https://github.com/jumic-test-org/example-project/commit/372cdbf9db39d84ee952ec02f1ef0a3a65f6e628))
+* initial configuration ([de917ed](https://github.com/jumic-test-org/example-project/commit/de917ed1b70329eb9e8ec6f3b80b9933d796cf1e))
+* publish cdk stack ([#83](https://github.com/jumic-test-org/example-project/issues/83)) ([328ff95](https://github.com/jumic-test-org/example-project/commit/328ff9562441386c93396dcecbb0c0dcf61e75da))
+* release new releases manually only ([#14](https://github.com/jumic-test-org/example-project/issues/14)) ([77c5713](https://github.com/jumic-test-org/example-project/commit/77c57132ab4dbba8f62f9cdb82926606c2708183))
+
+
+### Bug Fixes
+
+* add build to publish ([#85](https://github.com/jumic-test-org/example-project/issues/85)) ([bf45877](https://github.com/jumic-test-org/example-project/commit/bf45877b5d6e503a5cdcd60e1f0ebc20b7bd88c3))
+* add comment ([#76](https://github.com/jumic-test-org/example-project/issues/76)) ([b05dc34](https://github.com/jumic-test-org/example-project/commit/b05dc347caf566d112ddc96340713de054cc82ea))
+* automatically release new versions using release-please ([#11](https://github.com/jumic-test-org/example-project/issues/11)) ([c53fb1a](https://github.com/jumic-test-org/example-project/commit/c53fb1a97faeea255a7bc52e6ecbb63adbcdb220))
+* enable ssl on queue ([#16](https://github.com/jumic-test-org/example-project/issues/16)) ([9e5debe](https://github.com/jumic-test-org/example-project/commit/9e5debe649979462267dbdbd16c89b21b99db509))
+* publish command ([#87](https://github.com/jumic-test-org/example-project/issues/87)) ([5e2d729](https://github.com/jumic-test-org/example-project/commit/5e2d729fef7cf6c861f740bbd1d02797ffb3383f))
+* **release-please:** remove custom token configuration ([#19](https://github.com/jumic-test-org/example-project/issues/19)) ([73093d8](https://github.com/jumic-test-org/example-project/commit/73093d817ce04e6f4aa5838740792795c22066fe))
+* remove queue ([#74](https://github.com/jumic-test-org/example-project/issues/74)) ([a9a0627](https://github.com/jumic-test-org/example-project/commit/a9a062717a1f78a8776f4342f46a44897d13d80d))
+* resolve all npm audit vulnerabilities ([#287](https://github.com/jumic-test-org/example-project/issues/287)) ([05aed37](https://github.com/jumic-test-org/example-project/commit/05aed37bc7d40294adda4cbd57cacce13842fa68))
+* resolve glob and minimatch npm audit vulnerabilities ([#377](https://github.com/jumic-test-org/example-project/issues/377)) ([b853766](https://github.com/jumic-test-org/example-project/commit/b85376690ddc94121a3b171b6af9da58fd523fbb))
+* revert auto release property ([#12](https://github.com/jumic-test-org/example-project/issues/12)) ([a239095](https://github.com/jumic-test-org/example-project/commit/a23909584cde8a436c58a121b8f15c632d179da6))
+* set correct node version ([#4](https://github.com/jumic-test-org/example-project/issues/4)) ([94c4a96](https://github.com/jumic-test-org/example-project/commit/94c4a9695af8bf76123fc48626dd03c623a2468c))
+* test ([#102](https://github.com/jumic-test-org/example-project/issues/102)) ([a13689e](https://github.com/jumic-test-org/example-project/commit/a13689e358639dbcb49895b68d8962df16f3588d))
+* test dependabot ([#80](https://github.com/jumic-test-org/example-project/issues/80)) ([6032f2f](https://github.com/jumic-test-org/example-project/commit/6032f2fc026b3265fcb4d5d5c374fae6be8a243d))
+* test github actions ([#34](https://github.com/jumic-test-org/example-project/issues/34)) ([16d03c1](https://github.com/jumic-test-org/example-project/commit/16d03c14ee18f93215d8d440f651127be7867c4b))
+* update comments ([#78](https://github.com/jumic-test-org/example-project/issues/78)) ([2c03fa4](https://github.com/jumic-test-org/example-project/commit/2c03fa47ce656f459c0c5493c7fdc44eb6208837))
+* update mergify check names to match GitHub Actions ([322cd38](https://github.com/jumic-test-org/example-project/commit/322cd3897be6ccb429e126eb6751d7298f070cf9))
+* update queue name ([#66](https://github.com/jumic-test-org/example-project/issues/66)) ([9fedbf8](https://github.com/jumic-test-org/example-project/commit/9fedbf8c8b0e7c960e331f72e9091a59f1f39c9e))
+* Update release-please workflow configuration ([#9](https://github.com/jumic-test-org/example-project/issues/9)) ([1d92c4a](https://github.com/jumic-test-org/example-project/commit/1d92c4a097d7f8d287cbe73794aa002f279175e3))
+* update second queue ([#70](https://github.com/jumic-test-org/example-project/issues/70)) ([f25e832](https://github.com/jumic-test-org/example-project/commit/f25e832083dfb96a6edfce95010b59cca85f74e6))
+
 ## [1.4.2](https://github.com/jumic-test-org/example-project/compare/v1.4.1...v1.4.2) (2026-03-21)
 
 
